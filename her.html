@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Siskaa 💜</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+
+<style>
+body{
+  margin:0;
+  height:100vh;
+  font-family:'Poppins',sans-serif;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:#5a189a;
+  color:white;
+  overflow:hidden;
+  transition:0.6s;
+}
+
+/* Background moving light */
+body::before{
+  content:"";
+  position:absolute;
+  width:200%;
+  height:200%;
+  background: radial-gradient(circle,#c77dff55 10%,transparent 40%),
+              radial-gradient(circle,#e0aaff44 10%,transparent 40%);
+  background-size:600px 600px;
+  animation:moveBg 25s linear infinite;
+}
+@keyframes moveBg{
+  from{transform:translate(0,0);}
+  to{transform:translate(-200px,-200px);}
+}
+
+.card{
+  position:relative;
+  width:90%;
+  max-width:520px;
+  padding:40px;
+  border-radius:30px;
+  backdrop-filter:blur(20px);
+  background:rgba(255,255,255,0.08);
+  text-align:center;
+  z-index:2;
+  animation:fade 0.6s ease;
+}
+
+.hidden{display:none;}
+
+button{
+  display:block;
+  width:100%;
+  margin:12px 0;
+  padding:14px;
+  border:none;
+  border-radius:25px;
+  background:linear-gradient(45deg,#e0aaff,#c77dff);
+  color:white;
+  font-weight:500;
+  cursor:pointer;
+  transition:0.3s;
+}
+button:hover{transform:scale(1.05);}
+
+@keyframes fade{
+  from{opacity:0; transform:translateY(15px);}
+  to{opacity:1; transform:translateY(0);}
+}
+
+/* Progress bar */
+.progress-container{
+  margin-top:15px;
+  height:8px;
+  background:rgba(255,255,255,0.2);
+  border-radius:10px;
+  overflow:hidden;
+}
+.progress-bar{
+  height:100%;
+  width:0%;
+  background:linear-gradient(90deg,#c77dff,#e0aaff);
+  transition:0.4s;
+}
+.progress-text{
+  font-size:13px;
+  margin-top:6px;
+}
+
+/* Fade animation */
+.fade-out{
+  opacity:0 !important;
+  transform:scale(0.95);
+  transition:0.8s ease;
+}
+.fade-in{
+  animation:fadeInSmooth 0.8s ease forwards;
+}
+@keyframes fadeInSmooth{
+  from{opacity:0; transform:translateY(20px);}
+  to{opacity:1; transform:translateY(0);}
+}
+
+/* Bouquet */
+.bouquet-container{
+  margin-top:30px;
+  opacity:0;
+  transform:scale(0.8);
+  transition:1.2s ease;
+  position:relative;
+}
+.bouquet-container.show{
+  opacity:1;
+  transform:scale(1);
+}
+.glow{
+  position:absolute;
+  width:250px;
+  height:250px;
+  background:radial-gradient(circle,#c77dff88,transparent 60%);
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  z-index:-1;
+  animation:pulseGlow 4s ease-in-out infinite;
+}
+@keyframes pulseGlow{
+  0%{transform:translate(-50%,-50%) scale(1);}
+  50%{transform:translate(-50%,-50%) scale(1.2);}
+  100%{transform:translate(-50%,-50%) scale(1);}
+}
+
+.ribbon{
+  position:absolute;
+  bottom:25px;
+  left:50%;
+  transform:translateX(-50%);
+  background:#7b2cbf;
+  padding:6px 16px;
+  border-radius:20px;
+  font-size:14px;
+  opacity:0;
+  transition:1s;
+}
+.ribbon.show{opacity:1;}
+
+/* Blur overlay */
+#blurOverlay{
+  position:fixed;
+  inset:0;
+  backdrop-filter:blur(0px);
+  background:rgba(0,0,0,0);
+  transition:0.8s ease;
+  pointer-events:none;
+  z-index:1;
+}
+#blurOverlay.active{
+  backdrop-filter:blur(8px);
+  background:rgba(0,0,0,0.25);
+}
+
+/* Voucher */
+.voucher{
+  margin-top:25px;
+  padding:25px;
+  border-radius:20px;
+  background:linear-gradient(135deg,#e0aaff,#c77dff);
+  color:#4a148c;
+  position:relative;
+}
+.voucher-code{
+  margin:15px 0;
+  padding:10px;
+  border-radius:12px;
+  background:white;
+  font-weight:bold;
+  letter-spacing:2px;
+  color:#7b2cbf;
+}
+.redeemed-stamp{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%) rotate(-15deg) scale(0);
+  font-size:28px;
+  font-weight:bold;
+  color:#7b2cbf;
+  border:3px solid #7b2cbf;
+  padding:10px 20px;
+  border-radius:12px;
+  opacity:0;
+  transition:0.5s ease;
+}
+.redeemed-stamp.show{
+  transform:translate(-50%,-50%) rotate(-15deg) scale(1);
+  opacity:1;
+}
+
+/* Choice */
+.choice-wrap{
+  margin-top:25px;
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+  align-items:center;
+  position:relative;
+  height:120px;
+}
+.yes-btn{
+  width:80%;
+  background:linear-gradient(45deg,#c77dff,#9d4edd);
+}
+.no-btn{
+  width:80%;
+  background:linear-gradient(45deg,#b08ad6,#8e6ccf);
+  position:absolute;
+  top:60px;
+}
+
+/* Modal */
+.custom-modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  justify-content:center;
+  align-items:center;
+  background:rgba(0,0,0,0.4);
+  backdrop-filter:blur(6px);
+  z-index:999;
+}
+.custom-modal.show{display:flex;}
+
+.modal-box{
+  background:linear-gradient(135deg,#e0aaff,#c77dff);
+  padding:30px;
+  border-radius:20px;
+  text-align:center;
+  width:85%;
+  max-width:350px;
+  color:#4a148c;
+}
+
+.yes-style{
+  background:linear-gradient(135deg,#c77dff,#9d4edd);
+  color:white;
+  box-shadow:0 0 40px rgba(199,125,255,0.6);
+}
+
+.modal-box button{
+  margin-top:20px;
+  background:#7b2cbf;
+  color:white;
+}
+</style>
+</head>
+
+<body>
+
+<div id="blurOverlay"></div>
+
+<!-- INTRO -->
+<div class="card" id="introPage">
+  <h2>Hai Siskaa 💜</h2>
+  <p>Aku bikin sesuatu kecil buat kamu.</p>
+  <button onclick="goToMenu()">Mulai</button>
+</div>
+
+<!-- MENU -->
+<div class="card hidden" id="menuPage">
+  <h2>Hal-hal yang kamu suka 💜</h2>
+
+  <div class="progress-container">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
+  <div class="progress-text" id="progressText">
+    0 / 4 dibuka — buka semua, ada sesuatu di akhir 😉
+  </div>
+
+  <button onclick="openDetail(1)">😴 Suka ketiduran</button>
+  <button onclick="openDetail(2)">🥭 Suka durian</button>
+  <button onclick="openDetail(3)">👻 Suka nonton horror</button>
+  <button onclick="openDetail(4)">😏 Suka sama aku?</button>
+
+  <button id="secretBtn" class="hidden" onclick="openSecret()">💌 Secret</button>
+</div>
+
+<!-- DETAIL -->
+<div class="card hidden" id="detailPage">
+  <h3 id="detailTitle"></h3>
+  <p id="detailText"></p>
+  <button onclick="backToMenu()">Balik</button>
+</div>
+
+<!-- SECRET -->
+<div class="card hidden" id="secretPage">
+  <h2>For Siskaa 💜</h2>
+
+  <div class="bouquet-container" id="bouquet">
+    <div class="glow"></div>
+    <img src="bouquet.png" width="220">
+    <div class="ribbon" id="ribbon">Siskaaa 💜</div>
+  </div>
+
+  <div class="voucher hidden" id="voucherBox">
+    <h3>🎁 Bouquet Voucher</h3>
+    <p>1 Buket Bunga Asli 🌸</p>
+    <div class="voucher-code">001-Fransiska-040203</div>
+    <button onclick="redeemVoucher()">Redeem</button>
+    <div class="redeemed-stamp" id="stamp">REDEEMED</div>
+  </div>
+
+  <div id="question" class="hidden">
+    <p>Mau tetap di sini sama aku nggak? 😌</p>
+    <div class="choice-wrap">
+      <button class="yes-btn" onclick="yes()">💜 Mau</button>
+      <button class="no-btn" id="noBtn" onmouseover="moveNo()">🙄 Nggak</button>
+    </div>
+  </div>
+</div>
+
+<!-- Voucher Modal -->
+<div class="custom-modal" id="voucherModal">
+  <div class="modal-box">
+    <h3>💜 Voucher Berhasil Diredeem</h3>
+    <p>Sekarang tinggal ditukar beneran 😌</p>
+    <button onclick="closeVoucherModal()">Oke</button>
+  </div>
+</div>
+
+<!-- Yes Modal -->
+<div class="custom-modal" id="yesModal">
+  <div class="modal-box yes-style">
+    <h3>💜 Jawaban Diterima</h3>
+    <p>Baik. Aku anggap itu keputusan sadar 😌</p>
+    <button onclick="closeYesModal()">Siap</button>
+  </div>
+</div>
+
+<audio id="music">
+<source src="nothingonyou.mp3" type="audio/mp3">
+</audio>
+
+<script>
+let opened=new Set();
+const progressBar=document.getElementById("progressBar");
+const progressText=document.getElementById("progressText");
+const music=document.getElementById("music");
+
+function goToMenu(){
+  introPage.classList.add("hidden");
+  menuPage.classList.remove("hidden");
+}
+
+function openDetail(type){
+  opened.add(type);
+  updateProgress();
+  menuPage.classList.add("hidden");
+  detailPage.classList.remove("hidden");
+
+  const data={
+    1:[
+  "😴 Suka Ketiduran",
+  "Kamu sering ngabarin ketiduran.\nKadang pas lagi seru-serunya ngobrol.\n\nTapi anehnya, aku nggak pernah kesel.\n\nKarena setiap kamu balik lagi,\nrasanya tetap lanjut, bukan ulang dari awal."
+],
+    2:["🥭 Suka Durian","Durian itu nggak semua orang suka.\n\nBaunya kuat, rasanya khas.\nTapi yang ngerti, biasanya nggak gampang pindah.\n\nMirip kamu sih, dikit."
+  ],
+    3:["👻 Suka Horror","Kamu suka nonton horror tapi tiap jumpscare muncul tetap kaget."],
+    4:["😏 Suka Sama Aku?", "Aku nggak butuh jawaban sekarang.\n\nTapi kalau nanti kamu sadar jawabannya iya,\naku sudah di sini duluan."]
+  };
+
+  detailTitle.innerText=data[type][0];
+  detailText.innerText=data[type][1];
+}
+
+function updateProgress(){
+  const percent=(opened.size/4)*100;
+  progressBar.style.width=percent+"%";
+  if(opened.size===4){
+    progressText.innerText="4 / 4 lengkap — sesuatu sudah terbuka 💜";
+    secretBtn.classList.remove("hidden");
+  }else{
+    progressText.innerText=opened.size+" / 4 dibuka — buka semua, ada sesuatu di akhir 😉";
+  }
+}
+
+function backToMenu(){
+  detailPage.classList.add("hidden");
+  menuPage.classList.remove("hidden");
+}
+
+function openSecret(){
+  menuPage.classList.add("hidden");
+  secretPage.classList.remove("hidden");
+
+  setTimeout(()=>bouquet.classList.add("show"),300);
+  setTimeout(()=>ribbon.classList.add("show"),1000);
+  setTimeout(()=>{
+    voucherBox.classList.remove("hidden");
+    blurOverlay.classList.add("active");
+  },1800);
+
+  music.volume=0;
+  music.play();
+  let vol=0;
+  let fade=setInterval(()=>{
+    if(vol<0.25){vol+=0.02; music.volume=vol;}
+    else clearInterval(fade);
+  },200);
+}
+
+function redeemVoucher(){
+  stamp.classList.add("show");
+  voucherModal.classList.add("show");
+}
+
+function closeVoucherModal(){
+  voucherModal.classList.remove("show");
+  voucherBox.classList.add("fade-out");
+  bouquet.classList.add("fade-out");
+
+  setTimeout(()=>{
+    voucherBox.classList.add("hidden");
+    bouquet.classList.add("hidden");
+    question.classList.remove("hidden");
+    question.classList.add("fade-in");
+  },800);
+}
+
+function yes(){
+  yesModal.classList.add("show");
+}
+
+function closeYesModal(){
+  yesModal.classList.remove("show");
+  document.body.style.background="#6a1bb1";
+  setTimeout(()=>document.body.style.background="#5a189a",600);
+}
+
+function moveNo(){
+  noBtn.style.transition="0.3s";
+  noBtn.style.left=Math.random()*100+"px";
+  noBtn.style.top=60+Math.random()*40+"px";
+}
+</script>
+
+</body>
+</html>
